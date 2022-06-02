@@ -1,0 +1,53 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def DFTDM(x):
+
+    N = len(x)
+    X = np.zeros(N,dtype=np.complex_)
+    for n in range(N):
+        for k in range(N):
+            tf = np.exp(-2j * np.pi * k * n / N)
+            X[n]=X[n]+x[k]*tf
+    return X
+
+a=int(input("Enter the size : "))
+x = np.zeros(a)
+
+for i in range(0,a):
+    x[i]=input()
+
+
+X = DFTDM(x)
+
+N = len(X)
+n = np.arange(0,N)
+
+
+Y = np.zeros(N,dtype=np.complex_)
+
+for i in range(0,len(X)):
+    for j in range(0,len(X)):
+        if(i==j):
+            Y[j]=np.round(X[i],3)
+    
+print(Y)
+
+
+plt.subplot(2,2,1)
+plt.stem(Y.real, Y.imag)
+plt.xlabel('Real')
+plt.ylabel('Imaginary')
+plt.title('DFT Direct Method')
+
+plt.subplot(2,2,2)
+plt.stem(x,abs(Y))
+plt.xlabel('x')
+plt.ylabel('Magnitude(X)')
+plt.title('  Magnitude Spectrum')
+
+plt.subplot(3,2,5)
+plt.stem(x,np.angle(Y))
+plt.xlabel('x')
+plt.ylabel('Phase(X)')
+plt.title(' Phase Spectrum')
